@@ -1,6 +1,21 @@
 <html>
+	<head>
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#contactList").click(function(){
+					$.getJSON("controller/contacts/contactList", {}, function(data){
+						alert(data);
+					});
+				});
+			});
+		</script>
+	</head>
 
 	<body>
 		Mickelson
+		<br>
+		<button id="contactList">Get list</button>
 	</body>
 </html>
