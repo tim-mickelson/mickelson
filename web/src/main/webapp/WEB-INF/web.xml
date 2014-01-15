@@ -4,42 +4,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	
-	<!-- http://docs.spring.io/spring/docs/4.0.0.RELEASE/spring-framework-reference/htmlsingle/#beans-java-instantiating-container-web -->
-    <!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext instead of the default XmlWebApplicationContext -->
-    <context-param>
-        <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </context-param>	
-<!--	
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>eu.mickelson.web.spring.config.AppConfig,eu.mickelson.web.spring.config.BeanConfig</param-value>
-    </context-param>	
--->	
-    <listener>
-    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    		
-	<servlet>
-		<servlet-name>springmvc</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextClass</param-name>
-            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-        </init-param>		
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-        <param-value>eu.mickelson.web.spring.config.BeanConfig</param-value>
-        </init-param>
-		<load-on-startup>1</load-on-startup>
-		<async-supported>true</async-supported>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>springmvc</servlet-name>
-		<url-pattern>/controller/*</url-pattern>
-	</servlet-mapping>	
-
 <!--
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

@@ -26,14 +26,14 @@ public class Authentication {
 	
 	@Test
 	@Transactional
-	@Rollback(false)
+	@Rollback(true)
 	public void test(){
 		AuthUser user = new AuthUser();
 		user.setUsername("pippo");
 		user.setPassword("pluto");
 		
 		try{
-		entityManager.persist(user);
+			entityManager.persist(user);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
