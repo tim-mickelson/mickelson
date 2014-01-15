@@ -32,5 +32,5 @@ public class ApplicationInitializer implements WebApplicationInitializer{
 		context.setConfigLocation("eu.mickelson.web.spring.config");
 		return context;
 	} // end private function getContext
-	
+
 }  // end public class 
