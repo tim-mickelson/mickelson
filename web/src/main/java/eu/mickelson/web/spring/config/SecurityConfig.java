@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	 @Autowired
 	 public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.inMemoryAuthentication().withUser("pippo").password("pluto").roles("USER");
+		auth.inMemoryAuthentication().withUser("pippo").password("pluto").roles("USER");
 		 
 		//auth.authenticationProvider(securityProvider()).build();
 		 
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	   @Override
 	   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		   super.configure(auth);
-		   auth.authenticationProvider(securityProvider());
+		   //auth.authenticationProvider(securityProvider());
 	   }
 	 
 	 @Override
@@ -54,21 +54,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 	//.formLogin().loginPage("/login.html").permitAll();
 	 } // end protected function configure
 	
-	 @Bean
-	 public SecurityProvider securityProvider(){
-		 return new SecurityProvider();
-	 }
-	 
-	 @Bean
-	 SecurityFilter securityFilter(){
-		 return new SecurityFilter();
-	 }
-	 
-	 @Bean
-	 public ProviderManager providerManager(){
-		 List<AuthenticationProvider> list = new ArrayList<AuthenticationProvider>();
-		 list.add(securityProvider());
-		 return new ProviderManager(list);
-	 }
 	 
 }  // end public class SecurityConfig
