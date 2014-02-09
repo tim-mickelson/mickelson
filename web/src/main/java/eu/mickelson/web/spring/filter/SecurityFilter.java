@@ -29,8 +29,7 @@ public class SecurityFilter extends GenericFilterBean implements InitializingBea
 	public enum AUTH{
 		username, password
 	}
-	
-	
+		
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,	FilterChain chain) throws IOException, ServletException {
 		String username = null;
