@@ -33,6 +33,10 @@ public class SecurityFilter extends GenericFilterBean implements InitializingBea
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,	FilterChain chain) throws IOException, ServletException {
+		if(authenticationManager==null){
+			chain.doFilter(request, response);
+			return;
+		}
 		String username = null;
 		String password = null;
 		

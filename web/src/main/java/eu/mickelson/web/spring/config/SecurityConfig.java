@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -29,29 +30,30 @@ import eu.mickelson.web.spring.security.SecurityProvider;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-
+	/*	 
+	
 	 @Autowired
 	 public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		//auth.inMemoryAuthentication().withUser("pippo").password("pluto").roles("USER");
-		 
-		//auth.authenticationProvider(securityProvider()).build();
-		 
+		//auth.authenticationProvider(securityProvider()).build();	 
 	 }  // end public configureGlobal
+	
 	 
-	   @Override
-	   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		   super.configure(auth);
-		   auth.authenticationProvider(securityProvider());
-	   }
-	 
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		super.configure(auth);
+		auth.authenticationProvider(securityProvider()).build();
+	}
+*/	 
+	 @Order(1)
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception{
 		 http.authorizeRequests()
 		 	.antMatchers("/login.html").permitAll()
-		 	.anyRequest().authenticated()
+		 	.antMatchers("/**").authenticated()
+		 	//.anyRequest().authenticated()
 		 	.and()
-		 	.formLogin();//.and().addFilter(new SecurityFilter());
-		 	//.formLogin().loginPage("/login.html").permitAll();
+		 	.formLogin();
 	 } // end protected function configure
 	
 	 @Bean
@@ -60,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	 }
 	 
 	 @Bean
-	 SecurityFilter securityFilter(){
+	 SecurityFilter springSecurityFilterChain(){
 		 return new SecurityFilter();
 	 }
 	 
