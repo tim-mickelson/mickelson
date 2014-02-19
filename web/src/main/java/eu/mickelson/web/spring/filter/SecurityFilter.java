@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,10 +19,15 @@ import org.springframework.web.filter.GenericFilterBean;
 import eu.mickelson.web.spring.security.AuthenticationBean;
 import eu.mickelson.web.spring.security.CredentialsBean;
 
-public class SecurityFilter extends GenericFilterBean implements InitializingBean {
+public class SecurityFilter extends GenericFilterBean {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
 	AuthenticationManager authenticationManager;
+	
+	public void setAuthenticationManager(AuthenticationManager authenticationManager){
+		logger.debug(authenticationManager.toString());
+		logger.debug(this.toString());
+		this.authenticationManager = authenticationManager;
+	}
 	
 	public enum AUTH{
 		username, password
@@ -32,6 +35,13 @@ public class SecurityFilter extends GenericFilterBean implements InitializingBea
 		
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,	FilterChain chain) throws IOException, ServletException {
+		logger.debug(this.toString());
+		if(authenticationManager==null){
+			logger.debug("authenticationManager null");
+			chain.doFilter(request, response);
+			return;
+		}
+		logger.debug("authenticationManager not null");
 		String username = null;
 		String password = null;
 		
