@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 http
 		 	.authorizeRequests().antMatchers("/login.html").permitAll()
 		 .and()
+		 	.authorizeRequests().antMatchers("/controller/android/getContact").permitAll()
+		 .and()
 		 	.formLogin().loginPage("/login.html")
 		 .and()
 		 	.logout().logoutUrl("/logout")
