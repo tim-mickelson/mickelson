@@ -21,22 +21,35 @@ import org.springframework.web.filter.GenericFilterBean;
 import eu.mickelson.web.spring.security.AuthenticationBean;
 import eu.mickelson.web.spring.security.CredentialsBean;
 
-public class SecurityFilter extends GenericFilterBean implements InitializingBean {
+public class SecurityFilter extends GenericFilterBean {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
+	//@Autowired
 	AuthenticationManager authenticationManager;
+	
+	public void setAuthenticationManager(AuthenticationManager authenticationManager){
+		logger.debug(authenticationManager.toString());
+		logger.debug(this.toString());
+		this.authenticationManager = authenticationManager;
+	}
 	
 	public enum AUTH{
 		username, password
 	}
 	
+	public SecurityFilter(){
+		super();
+		logger.debug("Create filter");
+	}
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,	FilterChain chain) throws IOException, ServletException {
+		logger.debug(this.toString());
 		if(authenticationManager==null){
+			logger.debug("authenticationManager null");
 			chain.doFilter(request, response);
 			return;
 		}
+		logger.debug("authenticationManager not null");
 		String username = null;
 		String password = null;
 		
