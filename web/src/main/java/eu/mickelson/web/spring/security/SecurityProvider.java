@@ -13,6 +13,7 @@ public class SecurityProvider implements AuthenticationProvider {
 		if(authentication.getCredentials()!=null&&authentication.getCredentials()instanceof CredentialsBean){
 			CredentialsBean credentials = (CredentialsBean)authentication.getCredentials();
 			authenticationBean.setAuthenticated(credentials.getUsername().equals("pippo"));
+			authenticationBean.setCredentials(credentials);
 		}
 		
 		return authenticationBean;

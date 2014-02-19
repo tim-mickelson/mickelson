@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import eu.mickelson.web.contact.beans.ContactBean;
+import eu.mickelson.web.spring.security.AuthenticationBean;
+import eu.mickelson.web.spring.security.CredentialsBean;
 
 @Controller
 @RequestMapping("/contacts")
@@ -19,8 +21,14 @@ public class ContactController {
 	@ResponseBody
 	public ContactBean contactList(){
 		logger.debug("kommer jag hit");
-		Object a = SecurityContextHolder.getContext().getAuthentication();
-		Object o = SecurityContextHolder.getContext().getAuthentication().getDetails();
+		Object o = SecurityContextHolder.getContext().getAuthentication();
+		if(o instanceof AuthenticationBean){
+			AuthenticationBean authBean = (AuthenticationBean)o;
+			if(authBean.getCredentials()!=null&&authBean.getCredentials()instanceof CredentialsBean){
+				CredentialsBean creds = (CredentialsBean)authBean.getCredentials();
+				logger.debug("Username: "+creds.getUsername());
+			}
+		}
 		
 		ContactBean bean = new ContactBean();
 		bean.setName("pippo");
