@@ -11,14 +11,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import eu.mickelson.web.spring.filter.SecurityFilter;
+import eu.mickelson.web.spring.security.BasicSecurityProvider;
 import eu.mickelson.web.spring.security.SecurityProvider;
 
 /**
@@ -35,24 +36,21 @@ import eu.mickelson.web.spring.security.SecurityProvider;
 public class SecurityConfig {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(securityProvider());	 
-	}  // end public configureGlobal
-	
-	
 	@Configuration
 	@Order(1)
 	public static class BasicHttpSecurity extends WebSecurityConfigurerAdapter{
 		@Autowired
-		SecurityProvider provider;
+		BasicSecurityProvider provider;
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception{
 			BasicAuthenticationFilter filter = new BasicAuthenticationFilter(authenticationManager());
+			http.csrf().disable();
 			 http.antMatcher("/rest/**").authorizeRequests().anyRequest().authenticated()
 			 .and()
 			 	.httpBasic()
+			 .and()
+			 	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			 .and()
 			 	.authenticationProvider(provider).addFilterBefore(filter, AbstractPreAuthenticatedProcessingFilter.class);
 		
@@ -91,6 +89,11 @@ public class SecurityConfig {
 	 @Bean
 	 public SecurityProvider securityProvider(){
 		 return new SecurityProvider();
+	 }
+	 
+	 @Bean
+	 public BasicSecurityProvider basicSecurityProvider(){
+		 return new BasicSecurityProvider();
 	 }
 
 	 @Bean

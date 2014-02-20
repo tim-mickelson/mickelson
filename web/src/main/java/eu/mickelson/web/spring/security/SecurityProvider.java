@@ -1,7 +1,6 @@
 package eu.mickelson.web.spring.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -12,16 +11,12 @@ public class SecurityProvider implements AuthenticationProvider {
 		AuthenticationBean authenticationBean = new AuthenticationBean();
 		String username = null;
 		String password = null;
-		if(authentication.getCredentials()!=null){
+		if(authentication!=null){
 			Object creds = authentication.getCredentials();
+			if(creds==null)
+				return authenticationBean;
 			// First is for Basic HTTP Auth, second for normal web auth
-			if(creds instanceof UsernamePasswordAuthenticationToken){
-				UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)creds;
-				if(token.getPrincipal()!=null&&token.getPrincipal() instanceof String)
-					username = (String)token.getPrincipal();
-				if(token.getCredentials()!=null&&token.getCredentials() instanceof String)
-					password = (String)token.getCredentials();
-			}else if(creds instanceof CredentialsBean){
+			if(creds instanceof CredentialsBean){
 				username = ((CredentialsBean)creds).getUsername();
 				password = ((CredentialsBean)creds).getPassword();
 			}
@@ -40,10 +35,7 @@ public class SecurityProvider implements AuthenticationProvider {
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		boolean support = (AuthenticationBean.class.isAssignableFrom(authentication));
-		if(!support)
-			support = (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-		return support;
+		return (AuthenticationBean.class.isAssignableFrom(authentication));
 	}
 
 }  // end class SecurityProvider

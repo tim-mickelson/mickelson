@@ -17,7 +17,7 @@ import eu.mickelson.web.spring.security.CredentialsBean;
 public class ContactController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@RequestMapping(value="/contactList", method = RequestMethod.GET)
+	@RequestMapping(value="/contactList", method = RequestMethod.POST)
 	@ResponseBody
 	public ContactBean contactList(){
 		logger.debug("kommer jag hit");
