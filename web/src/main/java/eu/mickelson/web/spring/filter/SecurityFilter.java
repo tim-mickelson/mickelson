@@ -21,7 +21,7 @@ import eu.mickelson.web.spring.security.CredentialsBean;
 
 public class SecurityFilter extends GenericFilterBean {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	//@Autowired
+
 	AuthenticationManager authenticationManager;
 	
 	public void setAuthenticationManager(AuthenticationManager authenticationManager){
@@ -53,10 +53,10 @@ public class SecurityFilter extends GenericFilterBean {
 		
 		if(request instanceof HttpServletRequest ){
 			// Only attempt to get the parameters if in POST to avoid user putting in URL the params
-			if( ((HttpServletRequest)request).getMethod().equals("POST")){
+			//if( ((HttpServletRequest)request).getMethod().equals("POST")){
 				username = request.getParameter(AUTH.username.toString());
 				password = request.getParameter(AUTH.password.toString());
-			}
+			//}
 			HttpSession session = ((HttpServletRequest)request).getSession();
 			username = username!=null?username:(String)session.getAttribute(AUTH.username.toString()); 
 			password = password!=null ?password:(String)session.getAttribute(AUTH.password.toString()); 
@@ -69,7 +69,7 @@ public class SecurityFilter extends GenericFilterBean {
 				user.setUsername(username);
 			}
 			AuthenticationBean authenticationBean = new AuthenticationBean();
-			authenticationBean.setCredentials(user); //.setCredential(user);
+			authenticationBean.setCredentials(user);
 			Authentication authentication = authenticationManager.authenticate(authenticationBean);
 			if(authentication!=null&&authentication.isAuthenticated()){
 				SecurityContextHolder.getContext().setAuthentication(authentication);
