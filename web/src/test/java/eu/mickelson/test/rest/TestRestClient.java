@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.client.RestTemplate;
 
+import eu.mickelson.web.contact.beans.ContactBean;
+
 public class TestRestClient {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -32,12 +34,14 @@ public class TestRestClient {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		try{
-			ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+			ResponseEntity<ContactBean> response = restTemplate.postForEntity(url, requestEntity, ContactBean.class);
 			//ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, requestEntity);
 	
 			
 			assertNotNull(response);
-			logger.debug(response.getBody());
+			assertNotNull(response.getBody());
+			ContactBean bean = response.getBody();
+			logger.debug(bean.getName()+" "+bean.getSurname());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
