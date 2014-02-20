@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import eu.mickelson.web.spring.filter.SecurityFilter;
 import eu.mickelson.web.spring.security.SecurityProvider;
@@ -30,7 +32,7 @@ import eu.mickelson.web.spring.security.SecurityProvider;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
@@ -38,29 +40,54 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		auth.authenticationProvider(securityProvider());	 
 	}  // end public configureGlobal
 	
-	 @Override
-	 protected void configure(HttpSecurity http) throws Exception{
-		 SecurityFilter filter = new SecurityFilter();
-		 filter.setAuthenticationManager(authenticationManager());
-		 // http://www.petrikainulainen.net/programming/spring-framework/adding-social-sign-in-to-a-spring-mvc-web-application-configuration/
-		 http.csrf().disable();
-		 
-		 http
-		 	.authorizeRequests().antMatchers("/login.html").permitAll()
-		 .and()
-		 	.authorizeRequests().antMatchers("/controller/android/getContact").permitAll()
-		 .and()
-		 	.formLogin().loginPage("/login.html")
-		 .and()
-		 	.logout().logoutUrl("/logout")
-		 .and()
-		 	.authorizeRequests().anyRequest().authenticated()
-		 .and()
-		 	.authenticationProvider(new SecurityProvider())
-		 	.addFilterBefore( filter, AbstractPreAuthenticatedProcessingFilter.class);
-		 
-	 } // end protected function configure
 	
+	@Configuration
+	@Order(1)
+	public static class BasicHttpSecurity extends WebSecurityConfigurerAdapter{
+		@Autowired
+		SecurityProvider provider;
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception{
+			BasicAuthenticationFilter filter = new BasicAuthenticationFilter(authenticationManager());
+			 http.antMatcher("/rest/**").authorizeRequests().anyRequest().authenticated()
+			 .and()
+			 	.httpBasic()
+			 .and()
+			 	.authenticationProvider(provider).addFilterBefore(filter, AbstractPreAuthenticatedProcessingFilter.class);
+		
+		}  // end function configure
+	}  // end public static class BasicHttpSecurity
+	
+	@Configuration
+	@Order(2)
+	public static class WebSecurity extends WebSecurityConfigurerAdapter{
+		@Autowired
+		SecurityProvider provider;
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception{
+			 SecurityFilter filter = new SecurityFilter();
+			 filter.setAuthenticationManager(authenticationManager());
+			 // http://www.petrikainulainen.net/programming/spring-framework/adding-social-sign-in-to-a-spring-mvc-web-application-configuration/
+			 http.csrf().disable();
+			 
+			 http
+			 	.authorizeRequests().antMatchers("/login.html").permitAll()
+			 .and()
+			 	.formLogin().loginPage("/login.html")
+			 .and()
+			 	.logout().logoutUrl("/logout")
+			 .and()
+			 	.authorizeRequests().anyRequest().authenticated()
+			 .and()
+			 	.authenticationProvider(provider)
+			 	.addFilterBefore( filter, AbstractPreAuthenticatedProcessingFilter.class);
+			 
+		} // end protected function configure
+	}  // end public static class WebSecurity
+	 
+	 
 	 @Bean
 	 public SecurityProvider securityProvider(){
 		 return new SecurityProvider();

@@ -21,17 +21,21 @@ public class ContactController {
 	@ResponseBody
 	public ContactBean contactList(){
 		logger.debug("kommer jag hit");
+		String name = "name";
+		String surname = "surname";
 		Object o = SecurityContextHolder.getContext().getAuthentication();
 		if(o instanceof AuthenticationBean){
 			AuthenticationBean authBean = (AuthenticationBean)o;
 			if(authBean.getCredentials()!=null&&authBean.getCredentials()instanceof CredentialsBean){
 				CredentialsBean creds = (CredentialsBean)authBean.getCredentials();
 				logger.debug("Username: "+creds.getUsername());
+				name = creds.getUsername();
 			}
 		}
 		
 		ContactBean bean = new ContactBean();
-		bean.setName("pippo");
+		bean.setName(name);
+		bean.setSurname(surname);
 		return bean;
 	}
 	

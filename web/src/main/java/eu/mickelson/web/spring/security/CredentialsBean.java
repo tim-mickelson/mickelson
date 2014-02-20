@@ -1,12 +1,15 @@
 package eu.mickelson.web.spring.security;
 
+import java.io.Serializable;
+
 /**
  * On login this is the container for credential attributes as username and password, etc.
  * 
  * @author Tim Mickelson
  * @since 14/01/2014
  */
-public class CredentialsBean {
+public class CredentialsBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	

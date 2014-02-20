@@ -63,7 +63,7 @@ public class SecurityFilter extends GenericFilterBean {
 				user.setUsername(username);
 			}
 			AuthenticationBean authenticationBean = new AuthenticationBean();
-			authenticationBean.setCredentials(user); //.setCredential(user);
+			authenticationBean.setCredentials(user);
 			Authentication authentication = authenticationManager.authenticate(authenticationBean);
 			if(authentication!=null&&authentication.isAuthenticated()){
 				SecurityContextHolder.getContext().setAuthentication(authentication);
