@@ -3,6 +3,7 @@ package eu.mickelson.web.contact.beans;
 public class ContactBean {
 	private String name;
 	private String surname;
+	
 	public String getName() {
 		return name;
 	}
