@@ -31,6 +31,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import eu.mickelson.web.contact.beans.ContactBean;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,14 +67,14 @@ public class MainActivity extends AbstractAsyncActivity {
 	// ***************************************
 	// Private methods
 	// ***************************************
-	private void displayResponse(SimpleBean response) {
+	private void displayResponse(ContactBean response) {
 		Toast.makeText(this, response.getName(), Toast.LENGTH_LONG).show();
 	}
 
 	// ***************************************
 	// Private classes
 	// ***************************************
-	private class FetchSecuredResourceTask extends AsyncTask<Void, Void, SimpleBean> {
+	private class FetchSecuredResourceTask extends AsyncTask<Void, Void, ContactBean> {
 
 		private String username;
 
@@ -91,8 +92,8 @@ public class MainActivity extends AbstractAsyncActivity {
 			this.password = editText.getText().toString();
 		}
 
-		protected SimpleBean doInBackground(Void... params) {
-			final String url = "http://192.168.1.133:8090/mickelson/rest/contacts/contactList"; //getString(R.string.base_uri) + "/getmessage";
+		protected ContactBean doInBackground(Void... params) {
+			final String url = "http://192.168.1.130:8090/mickelson/rest/contacts/contactList"; //getString(R.string.base_uri) + "/getmessage";
 			//final String url = "http://192.168.2.111:8090/mickelson/rest/contacts/contactList"; //getString(R.string.base_uri) + "/getmessage";
 			System.out.println("MainActivity.doInBackground - url: "+url);
 			// Populate the HTTP Basic Authentitcation header with the username and password
@@ -104,18 +105,18 @@ public class MainActivity extends AbstractAsyncActivity {
 			// Create a new RestTemplate instance
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-			SimpleBean bean = new SimpleBean();
+			ContactBean bean = new ContactBean();
 			try {
 				// Make the network request
 				Log.d(TAG, "MainActivity.doInBackground - url: "+url);
 				//ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<Object>(requestHeaders), Object.class);
-				ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<String>(requestHeaders), Map.class);
+				ResponseEntity<ContactBean> response = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<String>(requestHeaders), ContactBean.class);
 				if(response==null)
 					Log.d(TAG, "response is null");
 				else{
 					Log.d(TAG, "response is NOT null");
 					Log.d(TAG, response.toString());
-					bean.setName(response.getBody().toString());
+					bean.setName(response.getBody().getName()+" "+response.getBody().getSurname());
 				}
 				//ResponseEntity<Message> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<Object>(requestHeaders), Message.class);
 				return bean;
@@ -182,7 +183,7 @@ public class MainActivity extends AbstractAsyncActivity {
 */		
 
 		@Override
-		protected void onPostExecute(SimpleBean result) {
+		protected void onPostExecute(ContactBean result) {
 			dismissProgressDialog();
 			displayResponse(result);
 		}
