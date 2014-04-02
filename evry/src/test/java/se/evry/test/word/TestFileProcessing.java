@@ -36,7 +36,8 @@ public class TestFileProcessing {
 
 	@Test
 	public void testHtmlFile() throws IOException{
-		File file = new File("C:/temp/test.html");
+		//File file = new File("C:/temp/test.html");
+		File file = new File("C:/temp/two_towers.html");
 		//InputStream in = new FileInputStream(file);
         //BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
