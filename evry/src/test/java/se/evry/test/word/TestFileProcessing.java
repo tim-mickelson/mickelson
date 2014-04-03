@@ -25,7 +25,7 @@ public class TestFileProcessing {
 
 	@Test
 	public void testTextFile() throws IOException{
-		InputStream in = new FileInputStream(new File("C:/temp/test.txt"));
+		InputStream in = new FileInputStream(new File("C:/temp/lor.txt"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
         Processor processor = new Processor();
