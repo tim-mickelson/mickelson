@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class for processing text Input Stream and value it.
+ * Class for processing text Input Stream and value it. One instance of this class per document since it holds
+ * all counters as attributes to the class.
+ * 
  * @author Tim Mickelson
  * @since 05/04/2014
  */
@@ -18,8 +20,12 @@ public class Processor {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	long normalaOrd;
 	long storaOrd;
-	// We assume that the words shorter then 3 and longer then 20 are not counted
+	// Words with double letters
+	long doubleLetter;
+	// All words between 3 and 20 characters
 	long allaOrd;
+	// All words even short dumped words
+	long wordsCount;
 	
 	/**
 	 * Read words and validate, line by line from text input.
@@ -31,7 +37,6 @@ public class Processor {
 	public void extractWords(Reader reader) throws IOException{
 		String line;
         while ((line = ((BufferedReader)reader).readLine()) != null) {
-            logger.info(line);
             evaluateLine(line);
         }
         
@@ -47,10 +52,13 @@ public class Processor {
 	private void evaluateLine(String line){
 		String[] words = line.split(" ");
 		for(String word : words){
+			wordsCount++;
 			// Ignore all words 3 chars or less
 			if(word.length()>3&&word.length()<21){
 				allaOrd++;
 				WordType wordType = evaluateWord(word);
+				if(wordType.doubleLetter)
+					doubleLetter++;
 				if(word.length()<11)
 					normalaOrd++;
 				else if(wordType.hyphen)
@@ -61,17 +69,28 @@ public class Processor {
 	
 	private WordType evaluateWord(String word){
 		WordType wordType = new WordType();
+		wordType.doubleLetter = doubleLetter(word);
+		
+		String hyphen = "-";
+		Pattern pattern = Pattern.compile(hyphen);
+		Matcher matcher = pattern.matcher(word);
+		wordType.hyphen = matcher.find();
+		return wordType;
+	}  // end private function evaluateWord
+	
+	/**
+	 * Find out if a word contains a double letter.
+	 * 
+	 * @author Tim Mickelson
+	 * @param word The single word to examen
+	 * @return true if double letter is found.
+	 */
+	public static boolean doubleLetter(String word){
 		// Match character loaded in \1 with next character
 		String doubleLetter = "([a-zA-Z])\\1";
 		Pattern pattern = Pattern.compile(doubleLetter);
 		Matcher matcher = pattern.matcher(word);
-		wordType.doubleLetter = matcher.find();
-		
-		String hyphen = "-";
-		pattern = Pattern.compile(hyphen);
-		matcher = pattern.matcher(word);
-		wordType.hyphen = matcher.find();
-		return wordType;
+		return matcher.find();
 	}
 	
 	private class WordType{

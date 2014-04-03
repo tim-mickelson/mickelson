@@ -12,6 +12,7 @@ import java.io.StringReader;
 import org.jsoup.Jsoup;
 import org.junit.Test;
 
+import se.evry.word.FileUtil;
 import se.evry.word.Processor;
 
 /**
@@ -23,6 +24,21 @@ import se.evry.word.Processor;
  */
 public class TestFileProcessing {
 
+	String fileName = "C:/temp/lor.txt";
+	String folderName = "c:/temp";
+	
+	@Test
+	public void testProcessFolder() throws IOException{
+		FileUtil fileUtil = new FileUtil();
+		fileUtil.processFolder(folderName);
+	}
+	
+	@Test
+	public void testProcessTextFile() throws IOException{
+		FileUtil fileUtil = new FileUtil();
+		fileUtil.processFile(fileName);
+	}
+	
 	@Test
 	public void testTextFile() throws IOException{
 		InputStream in = new FileInputStream(new File("C:/temp/lor.txt"));

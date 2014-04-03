@@ -22,14 +22,18 @@ import org.slf4j.LoggerFactory;
 public class Main {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	public static void main(String[] args){
+		
 		Logger logger = LoggerFactory.getLogger(Main.class);
-		logger.info("Kommer jag hit");
 		for(String arg : args){
 			logger.info(arg);
 		}
 		
-		//TODO: not always of course
-		usage();
+		if(args!=null&&args.length>1&&args[0]!=null&&args[0].length()>0&&args[1]!=null&&args[1].length()>0){
+			if(args[0].equals("-f"))
+				logger.info(args[1]);
+		}  // end check args definied
+		else
+			usage();
 	}  // end public function main
 	
 	private static void usage(){
