@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author Tim Mickelson
  *
  */
-public class FileUtil {
+public class FileManager {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**
@@ -49,7 +49,7 @@ public class FileUtil {
 		InputStream in = new FileInputStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
-        Processor processor = new Processor();
+        DocumentProcessor processor = new DocumentProcessor();
         processor.extractWords(reader);
         
         reader.close();		

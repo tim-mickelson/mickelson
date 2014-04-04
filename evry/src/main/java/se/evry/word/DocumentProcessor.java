@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * @author Tim Mickelson
  * @since 05/04/2014
  */
-public class Processor {
+public class DocumentProcessor {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	long normalaOrd;
 	long storaOrd;

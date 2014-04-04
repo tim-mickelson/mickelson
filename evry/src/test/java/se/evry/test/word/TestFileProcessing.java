@@ -12,8 +12,8 @@ import java.io.StringReader;
 import org.jsoup.Jsoup;
 import org.junit.Test;
 
-import se.evry.word.FileUtil;
-import se.evry.word.Processor;
+import se.evry.word.FileManager;
+import se.evry.word.DocumentProcessor;
 
 /**
  * Good links:
@@ -29,13 +29,13 @@ public class TestFileProcessing {
 	
 	@Test
 	public void testProcessFolder() throws IOException{
-		FileUtil fileUtil = new FileUtil();
+		FileManager fileUtil = new FileManager();
 		fileUtil.processFolder(folderName);
 	}
 	
 	@Test
 	public void testProcessTextFile() throws IOException{
-		FileUtil fileUtil = new FileUtil();
+		FileManager fileUtil = new FileManager();
 		fileUtil.processFile(fileName);
 	}
 	
@@ -44,7 +44,7 @@ public class TestFileProcessing {
 		InputStream in = new FileInputStream(new File("C:/temp/lor.txt"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
-        Processor processor = new Processor();
+        DocumentProcessor processor = new DocumentProcessor();
         processor.extractWords(reader);
         
         reader.close();
@@ -61,7 +61,7 @@ public class TestFileProcessing {
         String html = Jsoup.parse(file, "UTF-8").text();
         BufferedReader reader = new BufferedReader(new StringReader(html));
         
-        Processor processor = new Processor();
+        DocumentProcessor processor = new DocumentProcessor();
         processor.extractWords(reader);
         
         reader.close();
