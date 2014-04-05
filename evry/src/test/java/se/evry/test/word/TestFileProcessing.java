@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-
 import org.jsoup.Jsoup;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import se.evry.word.FileManager;
 import se.evry.word.DocumentProcessor;
+import se.evry.word.Presentation;
 
 /**
  * Good links:
@@ -39,6 +39,8 @@ public class TestFileProcessing {
 		Assert.assertNotNull(processors);
         Map<String, Integer> words = DocumentProcessor.getAllWords();
         logger.info(words.toString());		
+        Presentation presentation = new Presentation();
+        presentation.print();
 	}
 	
 	@Test

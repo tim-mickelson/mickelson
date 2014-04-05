@@ -72,6 +72,8 @@ public class DocumentProcessor {
 		// Loop map of words, substitue frequency with points and sum up the points.
 		for(Entry<String, Integer> wordEntry: words.entrySet()){
 			String word = wordEntry.getKey();
+			if(word.equals("little"))
+				word = word;
 			Integer frequency = wordEntry.getValue();
 			// the points this word is worth
 			int p = 0;
@@ -130,7 +132,9 @@ public class DocumentProcessor {
 				// Add word and so increase frequency. Only add short word or long with hyphen
 				if(word.length()<11||hyphen(word)){
 					validWordsCount++;
-					addWord(word);
+					// Only words longer then 3 chars will be added
+					if(word.length()>3)
+						addWord(word);
 				}
 			}  // end word of interest			
 		}
