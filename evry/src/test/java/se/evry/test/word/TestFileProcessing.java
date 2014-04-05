@@ -61,7 +61,7 @@ public class TestFileProcessing {
         Map<String, Integer> words = DocumentProcessor.getAllWords();
         logger.info(words.toString());
         
-        reader.close();
+        reader.close();        
 	}
 
 	@Test
