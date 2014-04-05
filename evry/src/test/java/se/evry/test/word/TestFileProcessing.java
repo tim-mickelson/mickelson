@@ -6,11 +6,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Assert;
 
 import org.jsoup.Jsoup;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import se.evry.word.FileManager;
 import se.evry.word.DocumentProcessor;
@@ -23,14 +28,17 @@ import se.evry.word.DocumentProcessor;
  *
  */
 public class TestFileProcessing {
-
+	Logger logger = LoggerFactory.getLogger(getClass());
 	String fileName = "C:/temp/lor.txt";
 	String folderName = "c:/temp";
 	
 	@Test
 	public void testProcessFolder() throws IOException{
 		FileManager fileUtil = new FileManager();
-		fileUtil.processFolder(folderName);
+		List<DocumentProcessor> processors = fileUtil.processFolder(folderName);
+		Assert.assertNotNull(processors);
+        Map<String, Integer> words = DocumentProcessor.getAllWords();
+        logger.info(words.toString());		
 	}
 	
 	@Test
@@ -46,6 +54,12 @@ public class TestFileProcessing {
         
         DocumentProcessor processor = new DocumentProcessor();
         processor.validateWords(reader);
+        
+        int points = processor.points();
+        logger.info("points: "+points);
+        
+        Map<String, Integer> words = DocumentProcessor.getAllWords();
+        logger.info(words.toString());
         
         reader.close();
 	}
