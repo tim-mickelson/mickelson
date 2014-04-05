@@ -8,10 +8,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import se.evry.word.DocumentValidation;
 import se.evry.word.FileManager;
 import se.evry.word.DocumentProcessor;
 
@@ -23,7 +27,7 @@ import se.evry.word.DocumentProcessor;
  *
  */
 public class TestFileProcessing {
-
+	Logger logger = LoggerFactory.getLogger(getClass());
 	String fileName = "C:/temp/lor.txt";
 	String folderName = "c:/temp";
 	
@@ -45,9 +49,14 @@ public class TestFileProcessing {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.validateWords(reader);
-        
+        DocumentValidation documentValidation = processor.validateWords(reader);
         reader.close();
+        
+        int points = documentValidation.points();
+        
+        Map<String, Integer> words = DocumentValidation.getWords();
+        logger.debug("points: "+points);
+        logger.debug(words.toString());
 	}
 
 	@Test

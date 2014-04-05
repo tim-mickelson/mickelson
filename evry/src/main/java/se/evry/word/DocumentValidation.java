@@ -2,6 +2,7 @@ package se.evry.word;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ public class DocumentValidation {
 	private Map<String, Integer> documentWords = new HashMap<String, Integer>();
 	// The words with double letter go in this map instead of documentWords
 	private Map<String, Integer> doubleLetterWords = new HashMap<String, Integer>();
+	//
+	private Map<String, Integer> bigWords = new HashMap<String, Integer>();
 	// Words with len > 2 and < 11
 	private long normalaOrd;
 	// Words longer then 10 with the character '-'
@@ -31,7 +34,11 @@ public class DocumentValidation {
 	// All words even short dumped words
 	private long wordsCount;
 	//  When the documentWords have been copied to the words Map set true and never repeat.
-	boolean copied = false;
+	boolean validated = false;
+	
+	public static Map<String, Integer> getWords(){
+		return words;
+	}
 	
 	/**
 	 * Calculate the points following the rules.
@@ -54,15 +61,19 @@ public class DocumentValidation {
 	 * @return
 	 */
 	public int points(){
-		long points = normalaOrd;
+		int points = Long.valueOf(normalaOrd).intValue();
 		
-		if(allaOrd<101){
-			// map words from documentWords to words Map, just copy the points
-		}
-		
-		if(allaOrd>100){
+		if(allaOrd<101&&!validated){
+			copyMap(documentWords, 1);
+		}  else if(allaOrd>100){
+			// All words are counted once again
 			points += normalaOrd;
+			// long words are counted
 			points += storaOrd;
+			if(!validated){
+				copyMap(documentWords, 2);
+				copyMap(bigWords, 1);
+			}
 			// map words from documentWords to words Map, double the points
 		}
 		
@@ -70,8 +81,25 @@ public class DocumentValidation {
 			points += doubleLetter;
 			// for each word give another point if double letter use Processor.doubleLetter(word) to find out
 		}
-		return 0;
+		validated = true;
+		return points;
 	}
+	
+	/**
+	 * Utlity function to copy map of words or double words adding point per word as input parameter pointPerWord
+	 * @param map
+	 * @param pointPerWord
+	 */
+	private void copyMap(Map<String, Integer> map, int pointPerWord){
+		for(Entry<String, Integer> entry : map.entrySet()){
+			// Sum global points with points on this document
+			Integer i = words.get(entry.getKey())==null?0:words.get(entry.getKey());
+			Integer j = entry.getValue()==null?0:entry.getValue();
+			j = j*pointPerWord;
+			i = i+j;
+			words.put(entry.getKey(), i);
+		}
+	}  // end utility functioon copyMap
 	
 	/**
 	 * Add point giving word. When calculating points these words will be moved to global map, not here.
@@ -81,17 +109,18 @@ public class DocumentValidation {
 	 * @see #addDoubleLetterWord(String)
 	 */
 	public void addWord(String word){
+		if(word==null||word.length()<3||word.length()>20)
+			return;
 		// If this is a double letter word, then use that function instead
 		if(DocumentProcessor.doubleLetter(word)){
 			addDoubleLetterWord(word);
 		}else{
 			Integer i = documentWords.get(word);
-			if(i==null)
-				documentWords.put(word, 1);
-			else{
-				// TODO: Check so this increments in map
-				i++;
-			}			
+			i = i==null?1:++i;
+			if(word.length()<21)
+				documentWords.put(word, i);
+			else  // calculate later
+				bigWords.put(word, 0);
 		} // end word is not double letter
 		logger.debug("word: "+word);
 	} // end public void addWord
@@ -106,8 +135,10 @@ public class DocumentValidation {
 	public void addDoubleLetterWord(String word){
 		if(!DocumentProcessor.doubleLetter(word))
 			logger.error("Word added faulty to map of double letters: "+word);
-		
-		
+		Integer i = doubleLetterWords.get(word);
+		i = i==null?1:++i;
+		doubleLetterWords.put(word, i);
+		logger.debug("word: "+word);
 	} // end function addDoubleLetterWord
 
 	/**

@@ -65,8 +65,8 @@ public class DocumentProcessor {
 		String[] words = line.split(" ");
 		for(String word : words){
 			wordsCount++;
-			// Ignore all words 3 chars or less
-			if(word.length()>3&&word.length()<21){
+			// Ignore all words 2 chars or less
+			if(word.length()>2&&word.length()<21){
 				allaOrd++;
 				WordType wordType = evaluateWord(word);
 				if(wordType.doubleLetter){
