@@ -50,7 +50,7 @@ public class FileManager {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.extractWords(reader);
+        processor.validateWords(reader);
         
         reader.close();		
 	}

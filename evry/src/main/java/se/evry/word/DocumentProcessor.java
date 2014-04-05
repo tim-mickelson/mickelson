@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DocumentProcessor {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	DocumentValidation documentValidation = new DocumentValidation();
+
 	long normalaOrd;
 	long storaOrd;
 	// Words with double letters
@@ -34,15 +36,25 @@ public class DocumentProcessor {
 	 * @param reader
 	 * @throws IOException 
 	 */
-	public void extractWords(Reader reader) throws IOException{
+	public DocumentValidation validateWords(Reader reader) throws IOException{
 		String line;
         while ((line = ((BufferedReader)reader).readLine()) != null) {
             evaluateLine(line);
         }
         
-        logger.info("normalaOrd: "+normalaOrd);
-        logger.info("storaOrd: "+storaOrd);
-        logger.info("allaOrd: "+allaOrd);
+        
+        documentValidation.setNormalaOrd(normalaOrd);
+        documentValidation.setStoraOrd(storaOrd);
+        documentValidation.setDoubleLetter(doubleLetter);
+        documentValidation.setAllaOrd(allaOrd);
+        documentValidation.setWordsCount(wordsCount);
+        
+        logger.info("normalaOrd: "+documentValidation.getNormalaOrd());
+        logger.info("storaOrd: "+documentValidation.getStoraOrd());
+        logger.info("doubleLetter: "+documentValidation.getDoubleLetter());
+        logger.info("allaOrd: "+documentValidation.getAllaOrd());
+        logger.info("wordsCount: "+documentValidation.getWordsCount());
+        return documentValidation;
 	} // end function extractWords
 	
 	/**
@@ -57,8 +69,11 @@ public class DocumentProcessor {
 			if(word.length()>3&&word.length()<21){
 				allaOrd++;
 				WordType wordType = evaluateWord(word);
-				if(wordType.doubleLetter)
+				if(wordType.doubleLetter){
 					doubleLetter++;
+					documentValidation.addDoubleLetterWord(word);
+				}else
+					documentValidation.addWord(word);
 				if(word.length()<11)
 					normalaOrd++;
 				else if(wordType.hyphen)

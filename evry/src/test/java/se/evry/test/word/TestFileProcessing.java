@@ -41,11 +41,11 @@ public class TestFileProcessing {
 	
 	@Test
 	public void testTextFile() throws IOException{
-		InputStream in = new FileInputStream(new File("C:/temp/lor.txt"));
+		InputStream in = new FileInputStream(new File("C:/temp/test.txt"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.extractWords(reader);
+        processor.validateWords(reader);
         
         reader.close();
 	}
@@ -62,7 +62,7 @@ public class TestFileProcessing {
         BufferedReader reader = new BufferedReader(new StringReader(html));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.extractWords(reader);
+        processor.validateWords(reader);
         
         reader.close();
 	}
