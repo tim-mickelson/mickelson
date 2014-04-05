@@ -40,6 +40,7 @@ public class TestFileProcessing {
         Map<String, Integer> words = DocumentProcessor.getAllWords();
         logger.info(words.toString());		
         Presentation presentation = new Presentation();
+        presentation.setProcessors(processors);
         presentation.print();
 	}
 	
@@ -55,7 +56,7 @@ public class TestFileProcessing {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.validateWords(reader);
+        processor.validateWords(reader, "test.txt");
         
         int points = processor.points();
         logger.info("points: "+points);
@@ -78,7 +79,7 @@ public class TestFileProcessing {
         BufferedReader reader = new BufferedReader(new StringReader(html));
         
         DocumentProcessor processor = new DocumentProcessor();
-        processor.validateWords(reader);
+        processor.validateWords(reader, file.getName());
         
         reader.close();
 	}

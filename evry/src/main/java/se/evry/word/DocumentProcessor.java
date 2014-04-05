@@ -30,6 +30,11 @@ public class DocumentProcessor {
 	int validWordsCount;
 	Integer documentPoints = null;
 	boolean copied = false;
+	private String fileName;
+	
+	public String getFileName(){
+		return fileName;
+	}
 	
 	public static Map<String, Integer> getAllWords(){
 		return allWords;
@@ -42,7 +47,8 @@ public class DocumentProcessor {
 	 * @param reader
 	 * @throws IOException 
 	 */
-	public void validateWords(Reader reader) throws IOException{
+	public void validateWords(Reader reader, String fileName) throws IOException{
+		this.fileName = fileName;
 		String line;
         while ((line = ((BufferedReader)reader).readLine()) != null) {
             evaluateLine(line);
@@ -72,8 +78,6 @@ public class DocumentProcessor {
 		// Loop map of words, substitue frequency with points and sum up the points.
 		for(Entry<String, Integer> wordEntry: words.entrySet()){
 			String word = wordEntry.getKey();
-			if(word.equals("little"))
-				word = word;
 			Integer frequency = wordEntry.getValue();
 			// the points this word is worth
 			int p = 0;

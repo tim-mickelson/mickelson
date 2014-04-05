@@ -59,7 +59,7 @@ public class FileManager {
 	        reader = new BufferedReader(new StringReader(html));
 		}
         DocumentProcessor processor = new DocumentProcessor();
-        processor.validateWords(reader);
+        processor.validateWords(reader, file.getName());
         
         reader.close();	
         return processor;
