@@ -86,12 +86,8 @@ public class DocumentValidation {
 			addDoubleLetterWord(word);
 		}else{
 			Integer i = documentWords.get(word);
-			if(i==null)
-				documentWords.put(word, 1);
-			else{
-				// TODO: Check so this increments in map
-				i++;
-			}			
+			i = i==null?1:i++;
+			documentWords.put(word, 1);
 		} // end word is not double letter
 		logger.debug("word: "+word);
 	} // end public void addWord
