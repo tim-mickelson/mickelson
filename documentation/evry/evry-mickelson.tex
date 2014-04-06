@@ -10,12 +10,36 @@
 \newpage
 
 \section{Introduction}
-The purpose of this documentation is to describe how the \cite{pdf}.
+The purpose of this documentation is to describe the approuch of resolving the programming assigment found in the \textit{pdf} document \textit{Programmeringsuppgift} provided by Evry~\cite{pdf}.
 
-the program package evry.jar.
+\section{The Problem}
+The programming challenge consists of reading textual documents and giving \textit{points} for documents and it's containing words. The points are then presented to the standard output as requested in the
+document \textit{Programmeringsuppgift}.
+
+\section{Rules}
+The rules as interpretted by me are:
+\begin{enumerate}
+	\item All words shorter then 3 characters and longer then 20 will not be considered, not even when counting the ammount of words in the document.
+	\item All words of the lenght 3 characters are counted but not given points.
+	\item All words between the length of 4 and 10 are \textit{short words} and always given at least one point.
+	\item All words between 10 and 20 letters are \textit{long words} and are encounted for only if the contain the character \textit{"-"} otherwise they are totally ignored.
+	\item If the document contains more then 100 words (short and long words with \textit{"-"}) then the short words get 2 points and the long 1 point.
+	\item If the document contains more then 1000 words (short and long words with \textit{"-"}) then all words with double letter get one more point.
+\end{enumerate}
+
+\section{Techincal data}
+The program is compiled with JDK 1.7.0
+
+
+\section{Usage}
+xxx
+
+\section{Technical Approach}
+
+Describe classes here
 
 \begin{thebibliography}{99}
-	\bibitem{pdf}Evry program assignment.
+	\bibitem{pdf}Anders Dannqvist\emph{Programmeringsuppgift} EVRY Consulting AB, 2014
 \end{thebibliography}
 
 \end{document}
