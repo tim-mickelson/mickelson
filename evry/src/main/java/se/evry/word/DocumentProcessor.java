@@ -87,7 +87,7 @@ public class DocumentProcessor {
 					p=1;
 			}else{
 				// Ok it's more then 100 words in the document so short words 2 points and long words also get a point
-				p = word.length()<21?2:1;
+				p = word.length()<11?2:1;
 				// Double letter adds one point to the word
 				if(validWordsCount>999&&doubleLetter(word))
 					p = p+1;
