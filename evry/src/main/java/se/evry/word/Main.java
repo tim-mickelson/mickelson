@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * -d directory <i>Absolute path to folder containing html and/or txt files.</i>
  * </code>
  * @author Tim Mickelson
- *
+ * @since 05/04/2014
  */
 public class Main {
 	Logger logger = LoggerFactory.getLogger(getClass());

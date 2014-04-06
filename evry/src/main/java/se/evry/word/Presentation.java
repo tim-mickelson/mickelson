@@ -50,7 +50,6 @@ public class Presentation {
 		System.out.println("Words");
 		System.out.println("------------------------------------------");
 		Map<String, Integer> order = orderWords(allWords);
-		//logger.debug(order.toString());
 		int size = 10;
 		int w = 0;
 		for(Entry<String, Integer> entry : order.entrySet()){

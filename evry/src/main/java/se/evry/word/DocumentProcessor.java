@@ -43,7 +43,7 @@ public class DocumentProcessor {
 	/**
 	 * Get Map of words in document grouped by words with corresponding points per word.
 	 * @author Tim Mickelson
-	 * @since 04/05/2014
+	 * @since 05/04/2014
 	 * @return
 	 */
 	public Map<String, Integer> getWords(){
@@ -68,8 +68,10 @@ public class DocumentProcessor {
 	} // end function extractWords
 	
 	/**
-	 * Calculate points from map of words
-	 * @return
+	 * Calculate points from map of words.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @return Points of all words in document.
 	 */
 	public int points(){
 		// This will only be calculated once
@@ -81,7 +83,9 @@ public class DocumentProcessor {
 	
 	/**
 	 * Use this function if the internal counter needs to be reset.
-	 * @return
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @return Points of all words in document.
 	 */
 	private int calculatePoints(){
 		int points = 0;
@@ -117,7 +121,10 @@ public class DocumentProcessor {
 	}
 	
 	/**
+	 * Extract words of String line and evaluate.
 	 * 
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
 	 * @param line
 	 */
 	private void evaluateLine(String line){
@@ -149,9 +156,11 @@ public class DocumentProcessor {
 	} // end public void addWord
 	
 	/**
-	 * 
+	 * Check if word contains hyphen.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
 	 * @param word
-	 * @return
+	 * @return true if word contains hyphen
 	 */
 	private boolean hyphen(String word){
 		String hyphen = "-";
@@ -161,9 +170,10 @@ public class DocumentProcessor {
 	}
 	
 	/**
-	 * Find out if a word contains a double letter.
+	 * Check if a word contains a double letter.
 	 * 
 	 * @author Tim Mickelson
+	 * @since 05/04/2014
 	 * @param word The single word to examen
 	 * @return true if double letter is found.
 	 */

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * This class handles files and folder to pass the single files of extension html, htm or txt for processing.
  * Each file after processing will save the result in a DocumentValidation object instance.
  * @author Tim Mickelson
- *
+ * @since 05/04/2014
  */
 public class FileManager {
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -100,6 +100,8 @@ public class FileManager {
 	
 	/**
 	 * Process the files one by one from the list of files.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
 	 * @param files
 	 */
 	private List<DocumentProcessor> processFiles(File[] files){
@@ -122,6 +124,8 @@ public class FileManager {
 	
 	/**
 	 * Utility function to get extension of a filename
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
 	 * @param fileName Name of file with extension.
 	 * @return Extension or empty String if not defined.
 	 */

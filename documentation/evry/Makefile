@@ -41,9 +41,9 @@ en: $(PDF_FILE)
 
 $(PS_FILE): 
 	$(LATEX) $(TEX_FILE)
-	$(DVIPS) -o $(OUTDIR)/$(PS_FILE) $(NAME).dvi
+#	$(DVIPS) -o $(OUTDIR)/$(PS_FILE) $(NAME).dvi
 	$(LATEX) $(TEX_FILE)
-	$(DVIPS) -o $(OUTDIR)/$(PS_FILE) $(NAME).dvi
+#	$(DVIPS) -o $(OUTDIR)/$(PS_FILE) $(NAME).dvi
 
 $(PDF_FILE): $(PS_FILE)
 	$(PS2PDF) $(OUTDIR)/$(PS_FILE) $(OUTDIR)/$(PDF_FILE)
