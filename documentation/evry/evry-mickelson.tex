@@ -1,6 +1,7 @@
 \documentclass[a4paper]{article}
+\usepackage{graphicx}
 
-\title{Title goes here}
+\title{Evry Programmeringsuppgift}
 \author{Tim Mickelson}
 \date{05/04/2014}
 
@@ -27,16 +28,37 @@ The rules as interpretted by me are:
 	\item If the document contains more then 1000 words (short and long words with \textit{"-"}) then all words with double letter get one more point.
 \end{enumerate}
 
-\section{Techincal data}
-The program is compiled with JDK 1.7.0
-
-
 \section{Usage}
-xxx
+The program is compiled with JDK 1.7.0 and Maven 3.0.1. Usage is quite simpe:
+
+\begin{verbatim} 
+$ java -jar evry-mickelson.jar [option] [file]
+\end{verbatim} 
+
+\begin{itemize}
+	\item \textit{option} - Flag -f for file input or -d for directory input.
+	\item \textit{file} - Absolute filename or directory.
+\end{itemize}
 
 \section{Technical Approach}
 
-Describe classes here
+\begin{figure}
+	\includegraphics[scale=0.5]{evry-mickelson.png}
+	\caption{Flow diagram}
+	\label{fd}
+\end{figure}
+
+The problem is roughly divided in three phases as in Figure~\ref{fd}. Each phase has a corresponding class described below - \textit{see Figure~\ref{cd}}. The provided source code is well documented, but this documentation should give a rough description of the implementation.
+
+\begin{figure}
+	\includegraphics[scale=0.5]{cd.png}
+	\caption{Class Diagram}
+	\label{cd}
+\end{figure}
+
+The three classes 
+
+\newpage
 
 \begin{thebibliography}{99}
 	\bibitem{pdf}Anders Dannqvist\emph{Programmeringsuppgift} EVRY Consulting AB, 2014

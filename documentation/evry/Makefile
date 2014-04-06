@@ -32,7 +32,7 @@ PDF_FILE = $(NAME).pdf
 TEX_FILE = $(NAME).tex
 OUTDIR = output
 VIM = vi
-LATEX = latex
+LATEX = pdflatex
 DVIPS = dvips
 PS2PDF = ps2pdf
 

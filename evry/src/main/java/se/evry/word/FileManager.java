@@ -25,21 +25,6 @@ public class FileManager {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**
-	 * Utility function to get extension of a filename
-	 * @param fileName Name of file with extension.
-	 * @return Extension or empty String if not defined.
-	 */
-	public static String extension(String fileName){
-	    String extension = "";
-	    if(fileName!=null&&fileName.length()>0){
-		    int dot = fileName.lastIndexOf(".");
-		    if(dot>1)
-		    	extension = fileName.substring(dot + 1);
-	    }
-	    return extension;
-	}  // end function extension
-	
-	/**
 	 * Process a file from filename and inject word points and frequency in DocumentProcessor bean.
 	 * @author Tim Mickelson
 	 * @since 05/04/2014
@@ -134,5 +119,20 @@ public class FileManager {
 		}  // end files not null	
 		return processors;
 	} // end private function processFiles
+	
+	/**
+	 * Utility function to get extension of a filename
+	 * @param fileName Name of file with extension.
+	 * @return Extension or empty String if not defined.
+	 */
+	private static String extension(String fileName){
+	    String extension = "";
+	    if(fileName!=null&&fileName.length()>0){
+		    int dot = fileName.lastIndexOf(".");
+		    if(dot>1)
+		    	extension = fileName.substring(dot + 1);
+	    }
+	    return extension;
+	}  // end function extension
 	
 }  // end public class FileUtil

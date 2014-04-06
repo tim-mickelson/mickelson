@@ -22,7 +22,7 @@ public class Presentation {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	// List of all documents
-	List<DocumentProcessor> processors;
+	private List<DocumentProcessor> processors;
 	
 	/**
 	 * Print all points of files and words to standard output.
@@ -84,9 +84,15 @@ public class Presentation {
 		return sortedMap;
 	} // end private function orderWords
 	
+	/**
+	 * Simple setter setting all DocumentProcessor instances to present to standard output.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @param processors
+	 */
 	public void setProcessors(List<DocumentProcessor> processors){
 		this.processors = processors;
-	}
+	} // end public functoin setProcessors
 	
 	/**
 	 * Copy all map of words to one unique map that groups words with points.

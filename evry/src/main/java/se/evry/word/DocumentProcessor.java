@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class for processing text Input Stream and value it. One instance of this class per document since it holds
- * all counters as attributes to the class.
+ * Class for processing text Input Stream and value it. It is a bean with all word values and
+ * the points of the document.
  * 
  * @author Tim Mickelson
  * @since 05/04/2014
@@ -22,17 +22,32 @@ import org.slf4j.LoggerFactory;
 public class DocumentProcessor {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	// All words grouped by word with frequency as Integer
-	Map<String, Integer> words = new HashMap<String, Integer>();
+	private Map<String, Integer> words = new HashMap<String, Integer>();
 	// All words even short dumped words
 	long wordsCount;
 	// Number of words that are between 3 and 20 characters if longer the 20 then it contains a hyphen
 	int validWordsCount;
 	Integer documentPoints = null;
-	boolean copied = false;
 	private String fileName;
 	
+	/**
+	 * Get filename that the bean represents.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @return
+	 */
 	public String getFileName(){
 		return fileName;
+	}
+
+	/**
+	 * Get Map of words in document grouped by words with corresponding points per word.
+	 * @author Tim Mickelson
+	 * @since 04/05/2014
+	 * @return
+	 */
+	public Map<String, Integer> getWords(){
+		return words;
 	}
 	
 	/**
@@ -68,7 +83,7 @@ public class DocumentProcessor {
 	 * Use this function if the internal counter needs to be reset.
 	 * @return
 	 */
-	public int calculatePoints(){
+	private int calculatePoints(){
 		int points = 0;
 		// Loop map of words, substitue frequency with points and sum up the points.
 		for(Entry<String, Integer> wordEntry: words.entrySet()){
@@ -99,10 +114,6 @@ public class DocumentProcessor {
 		// Save the result in bean
 		documentPoints = points;
 		return points;
-	}
-	
-	public Map<String, Integer> getWords(){
-		return words;
 	}
 	
 	/**
@@ -142,7 +153,7 @@ public class DocumentProcessor {
 	 * @param word
 	 * @return
 	 */
-	public static boolean hyphen(String word){
+	private boolean hyphen(String word){
 		String hyphen = "-";
 		Pattern pattern = Pattern.compile(hyphen);
 		Matcher matcher = pattern.matcher(word);
@@ -156,7 +167,7 @@ public class DocumentProcessor {
 	 * @param word The single word to examen
 	 * @return true if double letter is found.
 	 */
-	public static boolean doubleLetter(String word){
+	private boolean doubleLetter(String word){
 		// Match character loaded in \1 with next character
 		String doubleLetter = "([a-zA-Z])\\1";
 		Pattern pattern = Pattern.compile(doubleLetter);
