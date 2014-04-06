@@ -2,6 +2,7 @@ package se.evry.word;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,10 +20,17 @@ import org.slf4j.LoggerFactory;
  */
 public class Presentation {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
 	// List of all documents
 	List<DocumentProcessor> processors;
 	
+	/**
+	 * Print all points of files and words to standard output.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 */
 	public void print(){
+		Map<String, Integer> allWords = copyDocumentMap();
 		System.out.println("");
 		System.out.println("Summary");
 		System.out.println("------------------------------------------");
@@ -41,7 +49,7 @@ public class Presentation {
 		System.out.println("");
 		System.out.println("Words");
 		System.out.println("------------------------------------------");
-		Map<String, Integer> order = orderWords(DocumentProcessor.getAllWords());
+		Map<String, Integer> order = orderWords(allWords);
 		//logger.debug(order.toString());
 		int size = 10;
 		int w = 0;
@@ -79,5 +87,26 @@ public class Presentation {
 	public void setProcessors(List<DocumentProcessor> processors){
 		this.processors = processors;
 	}
+	
+	/**
+	 * Copy all map of words to one unique map that groups words with points.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 */
+	private Map<String, Integer> copyDocumentMap(){
+		Map<String, Integer> allWords = new HashMap<String, Integer>();
+		for(DocumentProcessor processor : processors){
+			Map<String, Integer> words = processor.getWords();
+			for(Entry<String, Integer> entry : words.entrySet()){
+				Integer i = allWords.get(entry.getKey());
+				Integer j = entry.getValue();
+				i = i==null?0:i;
+				j = j==null?0:j;
+				i = i+j;
+				allWords.put(entry.getKey(), i);
+			}
+		}
+		return allWords;
+	}  // /end public void copyDocumentMap
 	
 }  // end class Presentation

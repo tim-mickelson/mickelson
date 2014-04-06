@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DocumentProcessor {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	private static Map<String, Integer> allWords = new HashMap<String, Integer>();
 	// All words grouped by word with frequency as Integer
 	Map<String, Integer> words = new HashMap<String, Integer>();
 	// All words even short dumped words
@@ -35,10 +34,6 @@ public class DocumentProcessor {
 	public String getFileName(){
 		return fileName;
 	}
-	
-	public static Map<String, Integer> getAllWords(){
-		return allWords;
-	}  // end public getAllWords
 	
 	/**
 	 * Read words and validate, line by line from text input.
@@ -100,29 +95,15 @@ public class DocumentProcessor {
 			// Add this words points to the sum of points in the document
 			points += p*frequency;
 		}  // end loop words
-		// Copy map to global map of all words from all documents
-		copyDocumentMap();
 		
 		// Save the result in bean
 		documentPoints = points;
 		return points;
 	}
 	
-	/**
-	 * Copy the result of the internal map to the static map. This is a irreversible function.
-	 */
-	public void copyDocumentMap(){
-		if(copied) return;
-		copied = true;
-		for(Entry<String, Integer> entry : words.entrySet()){
-			Integer i = allWords.get(entry.getKey());
-			Integer j = entry.getValue();
-			i = i==null?0:i;
-			j = j==null?0:j;
-			i = i+j;
-			allWords.put(entry.getKey(), i);
-		}
-	}  // /end public void copyDocumentMap
+	public Map<String, Integer> getWords(){
+		return words;
+	}
 	
 	/**
 	 * 

@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.jsoup.Jsoup;
@@ -37,8 +37,7 @@ public class TestFileProcessing {
 		FileManager fileUtil = new FileManager();
 		List<DocumentProcessor> processors = fileUtil.processFolder(folderName);
 		Assert.assertNotNull(processors);
-        Map<String, Integer> words = DocumentProcessor.getAllWords();
-        logger.info(words.toString());		
+			
         Presentation presentation = new Presentation();
         presentation.setProcessors(processors);
         presentation.print();
@@ -60,9 +59,13 @@ public class TestFileProcessing {
         
         int points = processor.points();
         logger.info("points: "+points);
+        List<DocumentProcessor> list = new ArrayList<DocumentProcessor>();
+        list.add(processor);
         
-        Map<String, Integer> words = DocumentProcessor.getAllWords();
-        logger.info(words.toString());
+        Presentation p = new Presentation();
+        p.setProcessors(list);
+        
+        p.print();
         
         reader.close();        
 	}
