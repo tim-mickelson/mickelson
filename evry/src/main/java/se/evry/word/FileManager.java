@@ -39,12 +39,28 @@ public class FileManager {
 	    return extension;
 	}  // end function extension
 	
-	public void processFile(String fileName) throws IOException{
+	/**
+	 * Process a file from filename and inject word points and frequency in DocumentProcessor bean.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @see #processFile(File)
+	 * @param fileName
+	 * @throws IOException
+	 */
+	public DocumentProcessor processFile(String fileName) throws IOException{
 		logger.info("fileName: "+fileName);
 		File file = new File(fileName);
-		processFile(file);
+		DocumentProcessor processor = processFile(file);
+		return processor;
 	}  // end function processFile
 	
+	/**
+	 * Process a file and inject word points and frequency in DocumentProcessor bean.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @param fileName
+	 * @throws IOException
+	 */
 	public DocumentProcessor processFile(File file) throws IOException{
 		logger.info("fileName: "+file.getName());
 		String extension = extension(file.getName());
@@ -65,6 +81,13 @@ public class FileManager {
         return processor;
 	}
 	
+	/**
+	 * Process a folder, filter out .html, .htm and .txt files, validate the content and inject into DocumentProcessor beans.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @param folderName
+	 * @return
+	 */
 	public List<DocumentProcessor> processFolder(String folderName){
 		List<DocumentProcessor> processors = new ArrayList<DocumentProcessor>();
 		logger.info("folderName: "+folderName);

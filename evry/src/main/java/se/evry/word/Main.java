@@ -1,5 +1,9 @@
 package se.evry.word;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,26 +25,64 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	/**
+	 * The main entry point for this program package.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @param args Arguments for files/folders
+	 */
 	public static void main(String[] args){
-		
-		Logger logger = LoggerFactory.getLogger(Main.class);
-		for(String arg : args){
-			logger.info(arg);
-		}
-		
+		List<DocumentProcessor> processors = null;
 		if(args!=null&&args.length>1&&args[0]!=null&&args[0].length()>0&&args[1]!=null&&args[1].length()>0){
-			if(args[0].equals("-f"))
-				logger.info(args[1]);
-		}  // end check args definied
-		else
+			if(args[0].equals("-f")){
+				processors = new ArrayList<DocumentProcessor>();
+				DocumentProcessor processor = processFile(args[1]);
+				processors.add(processor);
+			} else if(args[0].equals("-d")){
+				FileManager fileManager = new FileManager();
+				processors = fileManager.processFolder(args[1]);
+			}else
+				usage();
+		} else // end check args definied
 			usage();
+		
+		if(processors!=null){
+	        Presentation presentation = new Presentation();
+	        presentation.setProcessors(processors);
+	        presentation.print();			
+		} // end processors not null
 	}  // end public function main
 	
+	/**
+	 * Inject the points and words into a DocumentProcessor bean.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 * @param fileName
+	 * @return <code>null</code> on error
+	 */
+	private static DocumentProcessor processFile(String fileName){
+		DocumentProcessor processor = null;
+		FileManager fileManager = new FileManager();
+		try {
+			processor = fileManager.processFile(fileName);
+		} catch (IOException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		return processor;
+	}  // end private function processFile
+	
+	/**
+	 * Utility function to print usage syntax.
+	 * @author Tim Mickelson
+	 * @since 05/04/2014
+	 */
 	private static void usage(){
 		System.out.println("\nUsage:");
-		System.out.println("$ java -jar evry.jar option option-param");
-		System.out.println("\nPossible option, option-param are:");
-		System.out.println("-f file");
-		System.out.println("-d directory");
+		System.out.println("$ java -jar evry.jar [option] [file]");
+		System.out.println("");
+		System.out.println("[file] is file or directory depending on the [option] that is -d (directory) or -f (file)");
+		System.out.println("");
+		System.out.println("Only files with extension .txt, .htm or .html are considered.");
 	}  // end public function usage
 } // end class Main
